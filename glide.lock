@@ -1,0 +1,12 @@
+hash: e6364839e4230e585c16825f951f387951a83821522f714f6e9b4ae13cb0e110
+updated: 2016-03-24T21:31:42.094092671-04:00
+imports:
+- name: golang.org/x/tools
+  version: 21cc49bd030cf5c6ebaca2fa0e3323628efed6d8
+  subpackages:
+  - go/loader
+  - go/ssa
+  - go/ast/astutil
+  - go/buildutil
+  - go/types/typeutil
+devImports: []

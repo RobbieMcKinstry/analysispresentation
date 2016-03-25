@@ -1,0 +1,6 @@
+package: github.com/CMU-15819O/rmckinst
+import:
+- package: golang.org/x/tools
+  subpackages:
+  - go/loader
+  - go/ssa
