@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+        <link rel="stylesheet" href="bower_components/reveal.js/css/theme/sky.css">
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section id="slide1"><!-- Title Slide  -->
+                    <h2>Wyvern without Decisions:</h2>
+                    <h2>Building an If-statement as a Library Function</h2>
+                    <p>Robbie McKinstry</p>
+                </section>
+
+                <section id="slide2">
+                    <section><h1>Motivation</h1></section>
+                    <section><!--What's interesting/challenging about the problem? Why did you choose this problem?-->
+                        <p>Wyvern is a language developed by CMU's Jonathan Aldrich</p>
+                        <ul>
+                            <li>Statically Typed</li>
+                            <li>Multi-Paradigm</li>
+                            <li>Embeddable Domain-Specic Languages</li>
+                            <li>Security Aware</li>
+                            <li>Early in Development</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>Wyvern doesn't have an If-statement.</p>
+                        <p>Not Turing complete</p>
+                        <p>Time to build one!</p>
+                    </section>
+                    <section>
+                        <h1>How?</h1>
+                        <p>Could build it into the parser</p>
+                        <p>Instead, use the lambda calculate solution:</p>
+                        <p>true = λx.λy.x</p>
+                        <p>false = λx.λy.y</p>
+                        <p>a b c | a = {true, false}</p>
+                        <p>Not so easy in strongly typed languages</p>
+                    </section>
+                </section>
+                <section id="slide3">
+                    <section>
+                        <h1>Goal</h1>
+                        <p>To develop an if-statement as a library function using special types</p>
+                    </section>
+                </section>
+                <section id="slide4">
+                    <section>
+                        <h1>Necessary Constructs:</h1>
+                        <p>Abstract Type Members (generics)</p>
+                        <p>Depedent Types</p>
+                        <p>Nested Type Declarations</p>
+                        <p>Determining Least-Common Supertype<p>
+                    </section>
+                    <section>
+                        <p>Final Product<p>
+                        <code style="text-align: left;"><pre>
+let super_type = least_common_supertype(then, else) in
+
+type Body
+    type T // Abstract type member
+    def apply(): this.T
+
+type Boolean
+    def if(then: Body, else: Body): type(super_type)
+
+val true = new
+    def if(then: Body, else: Body): then.T // dependent type
+        return then.apply()
+
+val false = new
+    def if(then: Body, else: Body) → else.T
+        return else.apply()
+
+def ifSt(bool: Boolean, then: Body, else:Body) → super_type
+    bool.if(then, else)</pre></code>
+                    </section>
+                </section>
+                <section id="slide5">
+                    <section><h1>Abstract Type Members</h1></section>
+                    <section>
+                        <p>Added them the parser and AST</p>
+                        <p>Resemble the "type alias"</p>
+                        <p>Already in the IR</p>
+                    </section>
+                </section>
+
+                <section id="slide6">
+                    <section><h1>Dependent Types</h1></section>
+                    <section>
+                        <code><pre>
+type Body
+    type T // Abstract type member
+    def apply(): this.T
+
+val true = new
+    def if(then: Body, else: Body): then.T // dependent type
+        return then.apply()</pre></code>
+                    </section>
+                    <section>
+                        <p>Requires no change to the parser</p>
+                        <p>Had to make sure each parameter was</p>
+                        <p>added to the namespace before the next one was typechecked.</p>
+                    </section>
+                </section>
+                <section id="slide7">
+                    <section>Nested Type Declaration</section>
+                    <section>
+                        <code><pre>
+type Body = new
+    type T
+    self → new
+        type T = this.T
+        def apply(): self.T
+    def apply(): this.T
+
+def ifSt(bool:Boolean, thenFn:Body, elseFn:thenFn.self) : thenFn.T
+</pre></code>
+                    </section> 
+                </section>
+                <section id="slide8">
+                    <section></section>
+                </section>
+            </div>
+        </div>
+        <script src="bower_components/reveal.js/js/reveal.js"></script>
+        <script>Reveal.initialize();</script>
+    </body>
+</html>
