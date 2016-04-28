@@ -120,7 +120,55 @@ def ifSt(bool:Boolean, thenFn:Body, elseFn:thenFn.self) : thenFn.T
                     </section> 
                 </section>
                 <section id="slide8">
-                    <section></section>
+                    <section>
+                        <h1>Least Common Supertype</h1>
+                        <p>Most precise type that encapsulates all information from both operands</p>
+                    </section>
+                    <section>
+                        <code><pre>
+type Foo
+    var one: int
+    var two: int
+
+type Bar
+    var one:   int
+    var three: int
+-------------------
+type Super
+    var one:   int
+    var two:   int
+    var three: int
+                        </pre></code>
+                    </section>
+                    <section>
+                        <code><pre>
+type Foo
+    var one: int
+    var two: int
+
+type Bar
+    var one: int
+    var two: String
+-------------------
+type Super ???
+                        </pre></code>
+                    </section>
+                    <section>
+                        <h1>Proposal: Anytype</h1>
+                        <p>⊤, but for the type lattice</p>
+                        <p>Anytype variable holds any variable</p>
+                        <p>Only Anytype variables can hold Anytype values</p>
+                        <p>Java Object</p>
+                        <p>Scala Any</p>
+                    </section>
+                </section>
+                <section id="9">
+                    <section>
+                        <h3>What's left?</h3>
+                        <p>Calculating the supertype</p>
+                        <p>Syntactic sugar</p>
+                    </section>
+                    <section><h1>END</h1></section>
                 </section>
             </div>
         </div>
